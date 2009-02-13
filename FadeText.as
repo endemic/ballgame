@@ -1,51 +1,44 @@
 package {
-
-	import flash.display.*;
+	import flash.events.Event;
+	import flash.display.Sprite;
 	import flash.text.*;
-	import flash.events.*;
 	
 	public class FadeText extends Sprite {
 
-		public function FadeText(m:String, x_:int, y_:int):void {
-			x = x_;
-			y = y_;
+		public function FadeText(s:String, x_:int, y_:int):void {
+			this.x = x_;
+			this.y = y_;
 			
 			var message:TextField = new TextField();
 			
 			var myFormat:TextFormat = new TextFormat();
-			var myFont:Font = new Museo();
-			myFormat.font = myFont.fontName;
 			myFormat.size = 14;
 			
-			message.textColor = 0xffffff;
+			message.textColor = 0xff00ff;
 			message.autoSize = TextFieldAutoSize.LEFT;		// Automatically resizes the text field with center justification
 			message.defaultTextFormat = myFormat;
-			message.embedFonts = true;
-			message.text = m;
+			message.text = s;
+			this.addChild(message);
 			
-			addChild(message);
-			addEventListener(Event.ENTER_FRAME, enterFrame);
+			Game.main.spriteContainer.addChild(this);
+			this.addEventListener(Event.ENTER_FRAME, enterFrame);
 		}
 		
 		private function enterFrame(e:Event):void {
 			// Fade the text
-			alpha -= 0.1;
+			this.alpha -= 0.1;
 			
 			// Move text upwards
-			y -= 1;
-			
-			// Make text slightly bigger
-			//scaleX += 0.1;
-			//scaleY += 0.1;
+			this.y -= 1;
 			
 			// If invisible, remove from display object container
-			if(alpha <= 0)
-				remove();
+			if(this.alpha <= 0)
+				this.remove();
 		}
 		
 		public function remove():void {
 			removeEventListener(Event.ENTER_FRAME, enterFrame);
-			Game.main.removeChild(this);
+			Game.main.spriteContainer.removeChild(this);
 		}
 	}
 }
