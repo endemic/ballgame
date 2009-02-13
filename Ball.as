@@ -46,22 +46,53 @@ package {
 		}
 		
 		private function doMovement():void {
-			//this.dx += this.ddx;
-			//this.dy += this.ddy;
 			
-			// Determine how friction affects speed
-			//this.dx = (this.dx <= 0.1 || this.dx >= -0.1) ? 0 : this.dx * friction;
-			//this.dy = (this.dy <= 0.1 || this.dy >= -0.1) ? 0 : this.dy * friction;
+			// Add acceleration to current speed
+			this.dx += this.ddx;
+			this.dy += this.ddy;
 			
 			// Apply speed to object
 			this.x += this.dx;
 			this.y += this.dy;
+			
+			// Determine how friction affects speed
+			this.dx = (this.dx <= 0.1 && this.dx >= -0.1) ? 0 : this.dx * friction;
+			this.dy = (this.dy <= 0.1 && this.dy >= -0.1) ? 0 : this.dy * friction;
 		}
 		
 		private function checkCollision():void {
 			// Simple - check collision with edges of SWF
 			if(this.x <= 0 || this.x >= 640) this.dx = -this.dx;
 			if(this.y <= 0 || this.y >= 480) this.dy = -this.dy;
+			
+			// Absolutely prevent from going off the edge of the screen
+			if(this.x < 0) this.x = 0;
+			if(this.x > 640) this.x = 640;
+			if(this.y < 0) this.y = 0;
+			if(this.y > 480) this.y = 480;
+			
+			// Check collision vs. blocks
+			for(var i:int = 0; i < Block.list.length; i++) {
+				if(this.hitTestObject(Block.list[i])) {
+					// Stop any acceleration
+					this.ddx = 0;
+					this.ddy = 0;
+					
+					// Bounce the ball away from whatever it hit
+					this.dx = -this.dx * 2;
+					this.dy = -this.dy * 2;
+					
+					// IDEA - Make movement impossible (or at least much slower) during the "hurt" animation, otherwise the ball 
+					// can bounce between objects and get going too fast
+					
+					// DEBUG
+					Game.main.debug.message.text = String('Hit block #' + i);
+				}
+			}
+		}
+		
+		public function getDistanceFrom(_x:Number, _y:Number):Number {
+			return Math.sqrt((this.x - _x) * (this.x - _x) + (this.y - _y) * (this.y - _y));
 		}
 	}
 }

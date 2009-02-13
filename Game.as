@@ -11,20 +11,33 @@ package {
 		public var spriteContainer:Sprite;
 		public var ball:Ball;
 		public var mouseClicked:Boolean = false;
+		public var debug:DebugText;
 		
 		public function Game():void {
 			main = this;
 			spriteContainer = new Sprite;
 			//var mouse:Cursor = new Cursor();
 			
+			// Create debug text
+			debug = new DebugText('DEBUG', 10, 10);
+			
 			// Create ball
 			ball = new Ball();
 			ball.init();
+			ball.width = 10;
+			ball.height = 10;
 			spriteContainer.addChild(ball);
 			
 			spriteContainer.graphics.beginFill(0xFFFFFF);
 			spriteContainer.graphics.drawRect(0, 0, 640, 480);
 			spriteContainer.graphics.endFill();
+			
+			// DEBUG - add some blocks
+			var block:Block;
+			for(var i:int = 0; i < 100; i++)
+				block = new Block(10, 10, 'Green', i * 10, i * 10);
+			
+			// Meat Boy uses array-based levels
 			
 			this.addChild(spriteContainer);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
@@ -34,7 +47,6 @@ package {
 		
 		public function mouseDown(e:MouseEvent):void {
 			mouseClicked = true;
-			var debug:FadeText = new FadeText(String(ball.dx + ", " + ball.dy), this.mouseX, this.mouseY);
 		}
 		
 		public function mouseUp(e:MouseEvent):void {
@@ -45,10 +57,16 @@ package {
 			if(mouseClicked == true) {
 				// Find distance between mouse and ball; apply velocity
 				var angle:Number = Math.atan2(this.mouseY - ball.y, this.mouseX - ball.x);
-
+				
+				// Acceleration of ball is inverse of how close cursor is to ball
+				var multiplier:Number = 100 / ball.getDistanceFrom(this.mouseX, this.mouseY);
+				
 				// Make these values negative, so the object moves AWAY from the cursor
-				ball.dx = -Math.cos(angle) * 2;
-				ball.dy = -Math.sin(angle) * 2;
+				ball.ddx = -Math.cos(angle) * multiplier;
+				ball.ddy = -Math.sin(angle) * multiplier;
+			} else {
+				ball.ddx = 0;
+				ball.ddy = 0;
 			}
 		}
 	}
