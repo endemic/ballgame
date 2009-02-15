@@ -40,7 +40,7 @@ package {
 			// DEBUG - add some collectables
 			var coin:Collectable;
 			for(i = 5; i < 15; i++)
-				coin = new Collectable(i * 20, i * 20);
+				coin = new Collectable((i * 20) + 200, (i * 20) + 200);
 			// Meat Boy uses array-based levels
 			
 			this.addChild(spriteContainer);
