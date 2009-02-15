@@ -1,6 +1,7 @@
 package {
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.media.Sound;
 
 	public class Ball extends Sprite {
 		
@@ -16,6 +17,9 @@ package {
 		[Embed(source="graphics/ball.svg")]
 		private var BallGraphic:Class;
 		private var spriteContainer:Sprite;
+		
+		[Embed(source="sounds/collision.mp3")]
+		private var CollisionSoundEffect:Class;
 		
 		public function Ball():void {
 			
@@ -81,6 +85,10 @@ package {
 					// Bounce the ball away from whatever it hit
 					this.dx = -this.dx * 2;
 					this.dy = -this.dy * 2;
+					
+					// Play sound
+					var s:Sound = new CollisionSoundEffect() as Sound;
+					s.play();
 					
 					// IDEA - Make movement impossible (or at least much slower) during the "hurt" animation, otherwise the ball 
 					// can bounce between objects and get going too fast
