@@ -71,20 +71,21 @@ package {
 			// DEBUG - add some blocks
 			var block:Block;
 			var coin:Collectable;
+			
 			for(var col:* in map)
 				for(var row:* in map[col])
 					if(map[col][row] != 0) {
 						
 						// Place collectables
 						if(map[col][row] == 2) {
-							coin = new Collectable(col * 20, row * 20);
+							coin = new Collectable(col * Block.size, row * Block.size);
 						// Place player start
 						} else if(map[col][row] == 3) {
-							ball.x = col * 20;
-							ball.y = row * 20;
+							ball.x = col * Block.size;
+							ball.y = row * Block.size;
 						// Otherwise, place all other blocks
 						} else
-							block = new Block(map[col][row], col * 20, row * 20);
+							block = new Block(map[col][row], col * Block.size, row * Block.size);
 						
 					}
 

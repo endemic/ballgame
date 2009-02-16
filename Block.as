@@ -3,6 +3,7 @@ package {
 	
 	public class Block extends Sprite {
 		
+		static public var size:int = 20;
 		static public var list:Array = [];
 		static public var types:Object = {
 			1:"Solid",
