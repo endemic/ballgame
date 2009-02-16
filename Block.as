@@ -4,12 +4,18 @@ package {
 	public class Block extends Sprite {
 		
 		static public var list:Array = [];
+		static public var types:Object = {
+			1:"Solid",
+			2:"Collectable",
+			3:"Start",
+			4:"Exit"
+		};
 		
 		public var type:String;
 		
 		private var spriteContainer:Sprite;
 		
-		public function Block(_width:int, _height:int, _type:String, _x:int, _y:int):void {
+		public function Block(_type:String, _x:int, _y:int):void {
 			// Set variables based on what's passed to the constructor
 			this.type = _type;
 			this.x = _x;
@@ -18,7 +24,7 @@ package {
 			// Load graphic
 			spriteContainer = new Sprite();
 			spriteContainer.graphics.beginFill(0x00ff00);
-			spriteContainer.graphics.drawRect(0, 0, _width, _height);
+			spriteContainer.graphics.drawRect(0, 0, 20, 20);
 			spriteContainer.graphics.endFill();
 			this.addChild(spriteContainer);
 			

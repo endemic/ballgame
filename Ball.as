@@ -60,8 +60,8 @@ package {
 			this.y += this.dy;
 			
 			// Determine how friction affects speed
-			this.dx = (this.dx <= 0.1 && this.dx >= -0.1) ? 0 : this.dx * friction;
-			this.dy = (this.dy <= 0.1 && this.dy >= -0.1) ? 0 : this.dy * friction;
+			this.dx = (this.dx <= 0.1 && this.dx >= -0.05) ? 0 : this.dx * friction;
+			this.dy = (this.dy <= 0.1 && this.dy >= -0.05) ? 0 : this.dy * friction;
 		}
 		
 		private function checkCollision():void {

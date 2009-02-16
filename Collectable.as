@@ -30,23 +30,25 @@ package {
 			// Check for collision with ball
 			if(this.hitTestObject(Game.main.ball)) {
 				// Play Sound
-				//var s:Sound = new PickupSoundEffect() as Sound;
-				//s.play();
+				var s:Sound = new PickupSoundEffect() as Sound;
+				s.play();
 				
 				// Destroy collectable
 				this.destroy();
 				
 				// Increase size ov ball
-				Game.main.ball.scaleX += 0.1;
-				Game.main.ball.scaleY += 0.1;
+				Game.main.ball.width *= 1.2;
+				Game.main.ball.height *= 1.2;
 			}
 		}
 		
 		public function destroy():void {
 			// Remove this object
 			if(Game.main.spriteContainer.contains(this))
-				if(Game.main.spriteContainer.removeChild(this))
-					Game.main.debug.message.text = "Removed a collectable";
+				Game.main.spriteContainer.removeChild(this);
+			
+			// Also remove event listener!
+			this.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
 	}
 }
