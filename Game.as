@@ -34,15 +34,10 @@ package {
 			
 			// DEBUG - add some blocks
 			var block:Block;
-			for(var i:int = 0; i < 100; i++)
-				block = new Block(10, 10, 'Green', i * 10, i * 10);
+			for(var i:int = 0; i < 10; i++)
+				block = new Block(25, 25, 'Green', i * 100, i * 100);
 			
-			// DEBUG - add some collectables
-			var coin:Collectable;
-			for(i = 5; i < 15; i++)
-				coin = new Collectable((i * 20) + 200, (i * 20) + 200);
-			// Meat Boy uses array-based levels
-			
+
 			this.addChild(spriteContainer);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			this.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
