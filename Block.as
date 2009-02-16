@@ -39,6 +39,11 @@ package {
 			// Remove this object
 			if(Game.main.spriteContainer.contains(this))
 				Game.main.spriteContainer.removeChild(this);
+			
+			// Remove from array as well
+			for(var i:int = 0; i < list.length; i++)
+				if(list[i] == this)
+					list.splice(i, 1);
 		}
 	}
 }
