@@ -14,6 +14,8 @@ package {
 		
 		public var type:String;
 		
+		[Embed(source="graphics/block.svg")]
+		private var BlockGraphic:Class;
 		private var spriteContainer:Sprite;
 		
 		public function Block(_type:String, _x:int, _y:int):void {
@@ -24,9 +26,14 @@ package {
 			
 			// Load graphic
 			spriteContainer = new Sprite();
-			spriteContainer.graphics.beginFill(0x00ff00);
-			spriteContainer.graphics.drawRect(0, 0, 20, 20);
-			spriteContainer.graphics.endFill();
+			var s:Sprite = new BlockGraphic();
+			s.width = Block.size;
+			s.height = Block.size;
+			s.cacheAsBitmap = true;
+			// Center reference point
+			//s.x = -this.size / 2;
+			//s.y = -this.size / 2;
+			spriteContainer.addChild(s);
 			this.addChild(spriteContainer);
 			
 			// Add to list

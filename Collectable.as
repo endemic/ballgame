@@ -10,14 +10,22 @@ package {
 		[Embed(source="sounds/pickup.mp3")]
 		private var PickupSoundEffect:Class;
 		
+		[Embed(source="graphics/ball.svg")]
+		private var BallGraphic:Class;
+		
 		public function Collectable(_x:int, _y:int):void {
 			this.x = _x;
 			this.y = _y;
 		
 			spriteContainer = new Sprite();
-			spriteContainer.graphics.beginFill(0x0000ff);
-			spriteContainer.graphics.drawCircle(0, 10, 10);
-			spriteContainer.graphics.endFill();
+			var s:Sprite = new BallGraphic();
+			s.width = 10;
+			s.height = 10;
+			s.cacheAsBitmap = true;
+			// Center reference point
+			s.x = -this.width / 2;
+			s.y = -this.height / 2;
+			spriteContainer.addChild(s);
 			this.addChild(spriteContainer);
 			
 			// Add to main display object container

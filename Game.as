@@ -81,8 +81,8 @@ package {
 							coin = new Collectable(col * Block.size, row * Block.size);
 						// Place player start
 						} else if(map[col][row] == 3) {
-							ball.x = col * Block.size;
-							ball.y = row * Block.size;
+							ball.x = row * Block.size;
+							ball.y = col * Block.size;
 						// Otherwise, place all other blocks
 						} else
 							block = new Block(map[col][row], col * Block.size, row * Block.size);

@@ -65,26 +65,23 @@ package {
 		}
 		
 		private function checkCollision():void {
-			// Simple - check collision with edges of SWF
-			if(this.x <= 0 || this.x >= 640) this.dx = -this.dx;
-			if(this.y <= 0 || this.y >= 480) this.dy = -this.dy;
 			
-			// Absolutely prevent from going off the edge of the screen
-			if(this.x < 0) this.x = 0;
-			if(this.x > 640) this.x = 640;
-			if(this.y < 0) this.y = 0;
-			if(this.y > 480) this.y = 480;
+			// Create a temporary object to check collision against
+			var tmp:Sprite = this;
+			tmp.x += this.dx;
+			tmp.y += this.dy;
+			
 			
 			// Check collision vs. blocks
 			for(var i:int = 0; i < Block.list.length; i++) {
-				if(this.hitTestObject(Block.list[i])) {
-					// Stop any acceleration
-					this.ddx = 0;
-					this.ddy = 0;
+				if(tmp.hitTestObject(Block.list[i])) {
+					// Stop any acceleration/movement
+					this.ddx = this.ddy = 0;
 					
 					// Bounce the ball away from whatever it hit
-					this.dx = -this.dx * 2;
-					this.dy = -this.dy * 2;
+					// NOTICE: Probably do this for spikes or whatever
+					this.dx = -this.dx;
+					this.dy = -this.dy;
 					
 					// Play sound
 					var s:Sound = new CollisionSoundEffect() as Sound;
