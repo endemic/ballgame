@@ -20,6 +20,7 @@ package {
 		
 		[Embed(source="sounds/collision.mp3")]
 		private var CollisionSoundEffect:Class;
+		private var collisionSound:Sound = new CollisionSoundEffect() as Sound;
 		
 		public function Ball():void {
 			
@@ -45,28 +46,38 @@ package {
 		}
 		
 		private function enterFrame(e:Event):void {
-			move();
+			
+/*			// Apply acceleration
+			this.dx += this.ddx;
+			this.dy += this.ddy;
+			
+			// Apply speed to object
+			this.x += this.dx;
+			this.y += this.dy;
+			
+			// Determine how friction/acceleration affects speed
+			this.dx = (this.dx <= 0.05 && this.dx >= -0.05) ? 0 : this.dx * friction;
+			this.dy = (this.dy <= 0.05 && this.dy >= -0.05) ? 0 : this.dy * friction;*/
+			
+			doMovement();
 		}
 		
-
-		
 		// Apply movement
-		private function move():void {
+		private function doMovement():void {
+
+			// Add acceleration to current speed
+			this.dx += this.ddx;
+			this.dy += this.ddy;
 			
-			var s:Sound = new CollisionSoundEffect() as Sound;
-			
-			// Create a temporary object to check collision against
-			var tmpX:Sprite = this;
-			var tmpY:Sprite = this;
-			
-			tmpX.x += this.dx + this.ddx;
-			tmpY.y += this.dy + this.ddy;
+			// Apply speed to object
+			this.x += this.dx;
+			this.y += this.dy;
 			
 			// Check collision vs. blocks
 			for(var i:int = 0; i < Block.list.length; i++) {
 				
 				// Check in X direction
-				if(tmpX.hitTestObject(Block.list[i])) {
+				if(this.hitTestObject(Block.list[i])) {
 
 					if(this.dx > 0)
 						this.x = Block.list[i].x - (this.width / 2);
@@ -74,41 +85,24 @@ package {
 						this.x = Block.list[i].x + Block.size + (this.width / 2);
 					
 					// Play sound
-					s.play();
-
-				} else {
-					// Add acceleration to current speed
-					this.dx += this.ddx;
-					
-					// Apply speed to object
-					this.x += this.dx;
-					
-					// Determine how friction affects speed
-					this.dx = (this.dx <= 0.05 && this.dx >= -0.05) ? 0 : this.dx * friction;
+					collisionSound.play();
 				}
 				
 				// Check in Y direction
-				if(tmpY.hitTestObject(Block.list[i])) {
+				if(this.hitTestObject(Block.list[i])) {
 
-					if(this.dy > 0)
+					if(this.dy < 0)
 						this.y = Block.list[i].y - (this.height / 2);
 					else
 						this.y = Block.list[i].y + Block.size + (this.height / 2);
 					
 					// Play sound
-					s.play();
-
-				} else {
-					// Add acceleration to current speed
-					this.dy += this.ddy;
-
-					// Apply speed to object
-					this.y += this.dy;
-
-					// Determine how friction affects speed
-					this.dy = (this.dy <= 0.05 && this.dy >= -0.05) ? 0 : this.dy * friction;
+					collisionSound.play();
 				}
 				
+				// Determine how friction affects speed
+				this.dx = (this.dx <= 0.05 && this.dx >= -0.05) ? 0 : this.dx * friction;
+				this.dy = (this.dy <= 0.05 && this.dy >= -0.05) ? 0 : this.dy * friction;
 			}
 		}
 		

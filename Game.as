@@ -88,7 +88,7 @@ package {
 					
 			// Create debug text
 			debug = new DebugText('DEBUG', 20, 20);
-			Game.main.debug.message.text = "Debug!";
+
 			this.addChild(spriteContainer);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			this.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
@@ -109,13 +109,13 @@ package {
 				var angle:Number = Math.atan2(this.mouseY - ball.y, this.mouseX - ball.x);
 				
 				// Acceleration of ball is inverse of how close cursor is to ball
-				var multiplier:Number = 10 / ball.getDistanceFrom(this.mouseX, this.mouseY);
+				var multiplier:Number = 100 / ball.getDistanceFrom(this.mouseX, this.mouseY);
 				
 				// Make these values negative, so the object moves AWAY from the cursor
 				ball.ddx = -Math.cos(angle) * multiplier;
 				ball.ddy = -Math.sin(angle) * multiplier;
 				
-				Game.main.debug.message.text = String('(' + ball.ddx + ',' + ball.ddy + ')');
+				//Game.main.debug.message.text = String('(' + ball.ddx + ',' + ball.ddy + ')');
 			} else {
 				ball.ddx = 0;
 				ball.ddy = 0;
