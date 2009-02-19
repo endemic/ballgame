@@ -45,69 +45,73 @@ package {
 		}
 		
 		private function enterFrame(e:Event):void {
-		
-			if(checkCollision('x') == false)
-				moveX();
-			if(checkCollision('y') == false)
-				moveY();
+			move();
 		}
 		
-		// Apply movement along x vector
-		private function moveX():void {
-			// Add acceleration to current speed
-			this.dx += this.ddx;
 
-			// Apply speed to object
-			this.x += this.dx;
-
-			// Determine how friction affects speed
-			this.dx = (this.dx <= 0.1 && this.dx >= -0.05) ? 0 : this.dx * friction;
-		}
 		
-		// Apply movement along Y vector
-		private function moveY():void {
-			// Add acceleration to current speed
-			this.dy += this.ddy;
+		// Apply movement
+		private function move():void {
 			
-			// Apply speed to object
-			this.y += this.dy;
-			
-			// Determine how friction affects speed
-			this.dy = (this.dy <= 0.1 && this.dy >= -0.05) ? 0 : this.dy * friction;
-		}
-		
-		private function checkCollision(vector:String):Boolean {
+			var s:Sound = new CollisionSoundEffect() as Sound;
 			
 			// Create a temporary object to check collision against
-			var tmp:Sprite = this;
+			var tmpX:Sprite = this;
+			var tmpY:Sprite = this;
 			
-			// If we only want to check vs. x vector
-			if(vector == 'x') {
-				tmp.x += this.dx + this.ddx;
-				tmp.y = this.y;
-			// If we only want to check vs. y vector
-			} else if(vector == 'y') {
-				tmp.y += this.dy + this.ddy;
-				tmp.x = this.x;
-			}
+			tmpX.x += this.dx + this.ddx;
+			tmpY.y += this.dy + this.ddy;
 			
 			// Check collision vs. blocks
 			for(var i:int = 0; i < Block.list.length; i++) {
-				if(tmp.hitTestObject(Block.list[i])) {
+				
+				// Check in X direction
+				if(tmpX.hitTestObject(Block.list[i])) {
+
+					if(this.dx > 0)
+						this.x = Block.list[i].x - (this.width / 2);
+					else
+						this.x = Block.list[i].x + Block.size + (this.width / 2);
 					
 					// Play sound
-					var s:Sound = new CollisionSoundEffect() as Sound;
 					s.play();
 
-					// DEBUG
-					Game.main.debug.message.text = String('Hit block #' + i);
+				} else {
+					// Add acceleration to current speed
+					this.dx += this.ddx;
 					
-					return true;
+					// Apply speed to object
+					this.x += this.dx;
+					
+					// Determine how friction affects speed
+					this.dx = (this.dx <= 0.05 && this.dx >= -0.05) ? 0 : this.dx * friction;
 				}
+				
+				// Check in Y direction
+				if(tmpY.hitTestObject(Block.list[i])) {
+
+					if(this.dy > 0)
+						this.y = Block.list[i].y - (this.height / 2);
+					else
+						this.y = Block.list[i].y + Block.size + (this.height / 2);
+					
+					// Play sound
+					s.play();
+
+				} else {
+					// Add acceleration to current speed
+					this.dy += this.ddy;
+
+					// Apply speed to object
+					this.y += this.dy;
+
+					// Determine how friction affects speed
+					this.dy = (this.dy <= 0.05 && this.dy >= -0.05) ? 0 : this.dy * friction;
+				}
+				
 			}
-			
-			return false;
 		}
+		
 		
 		public function getDistanceFrom(_x:Number, _y:Number):Number {
 			return Math.sqrt((this.x - _x) * (this.x - _x) + (this.y - _y) * (this.y - _y));
