@@ -26,6 +26,8 @@ package {
 			
 			// Initialize graphic
 			var s:Sprite = new BallGraphic();
+			s.width = 20;
+			s.height = 20;
 			spriteContainer = new Sprite();
 			spriteContainer.addChild(s);
 			
@@ -46,18 +48,6 @@ package {
 		}
 		
 		private function enterFrame(e:Event):void {
-			
-/*			// Apply acceleration
-			this.dx += this.ddx;
-			this.dy += this.ddy;
-			
-			// Apply speed to object
-			this.x += this.dx;
-			this.y += this.dy;
-			
-			// Determine how friction/acceleration affects speed
-			this.dx = (this.dx <= 0.05 && this.dx >= -0.05) ? 0 : this.dx * friction;
-			this.dy = (this.dy <= 0.05 && this.dy >= -0.05) ? 0 : this.dy * friction;*/
 			
 			doMovement();
 		}
@@ -91,15 +81,21 @@ package {
 			{
 				if(!(tmp.upLeft && tmp.upRight))	// These should both be zero if no block is there
 					this.y += this.dy;
-				else
+				else 
+				{
 					this.y = Math.floor(this.y / Block.size) * Block.size + this.height;
+					collisionSound.play();
+				}
 			}
 			else if(this.dy > 0)
 			{
 				if(!(tmp.downLeft && tmp.downRight))	// These should both be zero if no block is there
 					this.y += this.dy;
 				else
+				{
 					this.y = (Math.floor(this.y / Block.size) + 1) * Block.size - this.height;
+					collisionSound.play();
+				}
 			}
 			
 			// Move in X direction
@@ -109,14 +105,20 @@ package {
 				if(!(tmp.downLeft && tmp.upLeft))	// These should both be zero if no block is there
 					this.x += this.dx;
 				else
+				{
 					this.x = Math.floor(this.x / Block.size) * Block.size + this.width;
+					collisionSound.play();
+				}
 			}
 			else if(this.dx > 0)
 			{
 				if(!(tmp.downRight && tmp.upRight))	// These should both be zero if no block is there
 					this.x += this.dx;
 				else
+				{
 					this.x = (Math.floor(this.x / Block.size) + 1) * Block.size - this.width;
+					collisionSound.play();
+				}
 			}
 			
 			// Determine how friction affects speed
