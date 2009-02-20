@@ -62,6 +62,22 @@ package {
 			doMovement();
 		}
 		
+		private function checkCollision(newXPosition:Number, newYPosition:Number):Object
+		{
+			var corners:Object = new Object();
+			corners.downY = Math.floor((newYPosition + this.height - 1) / Block.size);
+			corners.upY = Math.floor((newYPosition - this.height) / Block.size);
+			corners.leftX = Math.floor((newXPosition - this.width) / Block.size);
+			corners.rightX = Math.floor((newXPosition + this.width - 1) / Block.size);
+			
+			corners.upLeft = Game.main.map[corners.upY][corners.leftX];
+			corners.downLeft = Game.main.map[corners.downY][corners.leftX];
+			corners.upRight = Game.main.map[corners.upY][corners.rightX];
+			corners.downRight = Game.main.map[corners.downY][corners.rightX];
+			
+			return corners;
+		}
+		
 		// Apply movement
 		private function doMovement():void {
 
@@ -69,41 +85,44 @@ package {
 			this.dx += this.ddx;
 			this.dy += this.ddy;
 			
-			// Apply speed to object
-			this.x += this.dx;
-			this.y += this.dy;
-			
-			// Check collision vs. blocks
-			for(var i:int = 0; i < Block.list.length; i++) {
-				
-				// Check in X direction
-				if(this.hitTestObject(Block.list[i])) {
-
-					if(this.dx > 0)
-						this.x = Block.list[i].x - (this.width / 2);
-					else
-						this.x = Block.list[i].x + Block.size + (this.width / 2);
-					
-					// Play sound
-					collisionSound.play();
-				}
-				
-				// Check in Y direction
-				if(this.hitTestObject(Block.list[i])) {
-
-					if(this.dy < 0)
-						this.y = Block.list[i].y - (this.height / 2);
-					else
-						this.y = Block.list[i].y + Block.size + (this.height / 2);
-					
-					// Play sound
-					collisionSound.play();
-				}
-				
-				// Determine how friction affects speed
-				this.dx = (this.dx <= 0.05 && this.dx >= -0.05) ? 0 : this.dx * friction;
-				this.dy = (this.dy <= 0.05 && this.dy >= -0.05) ? 0 : this.dy * friction;
+			// Move in Y direction
+			var tmp:Object = checkCollision(this.x, this.y + this.dy);
+			if(this.dy < 0) 
+			{
+				if(!(tmp.upLeft && tmp.upRight))	// These should both be zero if no block is there
+					this.y += this.dy;
+				else
+					this.y = Math.floor(this.y / Block.size) * Block.size + this.height;
 			}
+			else if(this.dy > 0)
+			{
+				if(!(tmp.downLeft && tmp.downRight))	// These should both be zero if no block is there
+					this.y += this.dy;
+				else
+					this.y = (Math.floor(this.y / Block.size) + 1) * Block.size - this.height;
+			}
+			
+			// Move in X direction
+			tmp = checkCollision(this.x + this.dx, this.y);
+			if(this.dx < 0)
+			{
+				if(!(tmp.downLeft && tmp.upLeft))	// These should both be zero if no block is there
+					this.x += this.dx;
+				else
+					this.x = Math.floor(this.x / Block.size) * Block.size + this.width;
+			}
+			else if(this.dx > 0)
+			{
+				if(!(tmp.downRight && tmp.upRight))	// These should both be zero if no block is there
+					this.x += this.dx;
+				else
+					this.x = (Math.floor(this.x / Block.size) + 1) * Block.size - this.width;
+			}
+			
+			// Determine how friction affects speed
+			this.dx = (this.dx <= 0.05 && this.dx >= -0.05) ? 0 : this.dx * friction;
+			this.dy = (this.dy <= 0.05 && this.dy >= -0.05) ? 0 : this.dy * friction;
+			
 		}
 		
 		
