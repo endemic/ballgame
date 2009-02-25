@@ -31,6 +31,9 @@ package {
 			spriteContainer = new Sprite();
 			spriteContainer.addChild(s);
 			
+			spriteContainer.width = 20;
+			spriteContainer.height = 20;
+			
 			// Center contents
 			spriteContainer.x = -spriteContainer.width/2;
 			spriteContainer.y = -spriteContainer.height/2;
@@ -42,28 +45,29 @@ package {
 		}
 		
 		public function init():void {
-			this.x = 320;
-			this.y = 240;
 			this.dx = this.dy = this.ddx = this.ddy = 0;
 		}
 		
 		private function enterFrame(e:Event):void {
-			
 			doMovement();
 		}
 		
 		private function checkCollision(newXPosition:Number, newYPosition:Number):Object
 		{
 			var corners:Object = new Object();
-			corners.downY = Math.floor((newYPosition + this.height - 1) / Block.size);
-			corners.upY = Math.floor((newYPosition - this.height) / Block.size);
-			corners.leftX = Math.floor((newXPosition - this.width) / Block.size);
-			corners.rightX = Math.floor((newXPosition + this.width - 1) / Block.size);
+			corners.downY = Math.floor((newYPosition + this.height / 2) / Block.size);
+			corners.upY = Math.floor((newYPosition - this.height / 2) / Block.size);
+			corners.leftX = Math.floor((newXPosition - this.width / 2) / Block.size);
+			corners.rightX = Math.floor((newXPosition + this.width / 2) / Block.size);
+			
+			//Game.main.debug.message.text = String("  " + corners.upY + "\n" + corners.leftX + "  " + corners.rightX + "\n  " + corners.downY);
 			
 			corners.upLeft = Game.main.map[corners.upY][corners.leftX];
 			corners.downLeft = Game.main.map[corners.downY][corners.leftX];
 			corners.upRight = Game.main.map[corners.upY][corners.rightX];
 			corners.downRight = Game.main.map[corners.downY][corners.rightX];
+			
+			Game.main.debug.message.text = String(corners.upLeft + " " + corners.upRight + "\n" + corners.downLeft + " " + corners.downRight);
 			
 			return corners;
 		}
@@ -79,21 +83,21 @@ package {
 			var tmp:Object = checkCollision(this.x, this.y + this.dy);
 			if(this.dy < 0) 
 			{
-				if(!(tmp.upLeft && tmp.upRight))	// These should both be zero if no block is there
+				if(!tmp.upLeft && !tmp.upRight)	// These should both be zero if no block is there
 					this.y += this.dy;
 				else 
 				{
-					this.y = Math.floor(this.y / Block.size) * Block.size + this.height;
+					this.y = Math.floor(this.y / Block.size) * Block.size + this.height / 2;
 					collisionSound.play();
 				}
 			}
 			else if(this.dy > 0)
 			{
-				if(!(tmp.downLeft && tmp.downRight))	// These should both be zero if no block is there
+				if(!tmp.downLeft && !tmp.downRight)	// These should both be zero if no block is there
 					this.y += this.dy;
 				else
 				{
-					this.y = (Math.floor(this.y / Block.size) + 1) * Block.size - this.height;
+					this.y = (Math.floor(this.y / Block.size) + 1) * Block.size - this.height / 2;
 					collisionSound.play();
 				}
 			}
@@ -102,21 +106,21 @@ package {
 			tmp = checkCollision(this.x + this.dx, this.y);
 			if(this.dx < 0)
 			{
-				if(!(tmp.downLeft && tmp.upLeft))	// These should both be zero if no block is there
+				if(!tmp.downLeft && !tmp.upLeft)	// These should both be zero if no block is there
 					this.x += this.dx;
 				else
 				{
-					this.x = Math.floor(this.x / Block.size) * Block.size + this.width;
+					this.x = Math.floor(this.x / Block.size) * Block.size + this.width / 2;
 					collisionSound.play();
 				}
 			}
 			else if(this.dx > 0)
 			{
-				if(!(tmp.downRight && tmp.upRight))	// These should both be zero if no block is there
+				if(!tmp.downRight && !tmp.upRight)	// These should both be zero if no block is there
 					this.x += this.dx;
 				else
 				{
-					this.x = (Math.floor(this.x / Block.size) + 1) * Block.size - this.width;
+					this.x = (Math.floor(this.x / Block.size) + 1) * Block.size - this.width / 2;
 					collisionSound.play();
 				}
 			}

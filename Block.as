@@ -9,30 +9,54 @@ package {
 			1:"Solid",
 			2:"Collectable",
 			3:"Start",
-			4:"Exit"
+			4:"Exit",
+			5:"LeftSpike",
+			6:"RightSpike",
+			7:"DownSpike",
+			8:"UpSpike"
 		};
 		
 		public var type:String;
 		
 		[Embed(source="graphics/block.svg")]
 		private var BlockGraphic:Class;
+		
+		[Embed(source="graphics/spike.svg")]
+		private var SpikeGraphic:Class;
+		
 		private var spriteContainer:Sprite;
 		
-		public function Block(_type:String, _x:int, _y:int):void {
+		public function Block(_type:int, _x:int, _y:int):void {
 			// Set variables based on what's passed to the constructor
-			this.type = _type;
+			this.type = types[_type];
 			this.x = _x;
 			this.y = _y;
 			
+			// Local sprite variable to load graphic
+			var s:Sprite;
+			
 			// Load graphic
-			spriteContainer = new Sprite();
-			var s:Sprite = new BlockGraphic();
+			if(_type > 5) {
+				s = new SpikeGraphic();
+				
+				// Allow for different directions
+				if(_type == 5) {
+					s.rotation -= 90;
+					s.x -= s.height;
+				} else if(_type == 6) {
+					s.rotation += 90;
+					s.x -= s.height;
+				} else if(_type == 7)
+					s.rotation += 180;
+			} else {
+				s = new BlockGraphic();
+			}
+				
 			s.width = Block.size;
 			s.height = Block.size;
 			s.cacheAsBitmap = true;
-			// Center reference point
-			//s.x = -this.size / 2;
-			//s.y = -this.size / 2;
+			
+			spriteContainer = new Sprite();
 			spriteContainer.addChild(s);
 			this.addChild(spriteContainer);
 			
