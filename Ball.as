@@ -30,10 +30,7 @@ package {
 			s.height = 20;
 			spriteContainer = new Sprite();
 			spriteContainer.addChild(s);
-			
-			spriteContainer.width = 20;
-			spriteContainer.height = 20;
-			
+
 			// Center contents
 			spriteContainer.x = -spriteContainer.width/2;
 			spriteContainer.y = -spriteContainer.height/2;
@@ -55,10 +52,10 @@ package {
 		private function checkCollision(newXPosition:Number, newYPosition:Number):Object
 		{
 			var corners:Object = new Object();
-			corners.downY = Math.floor((newYPosition + this.height / 2) / Block.size);
+			corners.downY = Math.floor((newYPosition + this.height / 2 - 1) / Block.size);
 			corners.upY = Math.floor((newYPosition - this.height / 2) / Block.size);
 			corners.leftX = Math.floor((newXPosition - this.width / 2) / Block.size);
-			corners.rightX = Math.floor((newXPosition + this.width / 2) / Block.size);
+			corners.rightX = Math.floor((newXPosition + this.width / 2 - 1) / Block.size);
 			
 			//Game.main.debug.message.text = String("  " + corners.upY + "\n" + corners.leftX + "  " + corners.rightX + "\n  " + corners.downY);
 			

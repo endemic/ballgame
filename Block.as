@@ -21,8 +21,14 @@ package {
 		[Embed(source="graphics/block.svg")]
 		private var BlockGraphic:Class;
 		
-		[Embed(source="graphics/spike.svg")]
-		private var SpikeGraphic:Class;
+		[Embed(source="graphics/up-spike.svg")]
+		private var UpSpikeGraphic:Class;
+		[Embed(source="graphics/down-spike.svg")]
+		private var DownSpikeGraphic:Class;
+		[Embed(source="graphics/left-spike.svg")]
+		private var LeftSpikeGraphic:Class;
+		[Embed(source="graphics/right-spike.svg")]
+		private var RightSpikeGraphic:Class;
 		
 		private var spriteContainer:Sprite;
 		
@@ -37,17 +43,15 @@ package {
 			
 			// Load graphic
 			if(_type > 5) {
-				s = new SpikeGraphic();
-				
 				// Allow for different directions
-				if(_type == 5) {
-					s.rotation -= 90;
-					s.x -= s.height;
-				} else if(_type == 6) {
-					s.rotation += 90;
-					s.x -= s.height;
-				} else if(_type == 7)
-					s.rotation += 180;
+				if(this.type == "LeftSpike")
+					s = new LeftSpikeGraphic();
+				else if(this.type == "RightSpike")
+					s = new RightSpikeGraphic();
+				else if(this.type == "DownSpike")
+					s = new DownSpikeGraphic();
+				else
+					s = new UpSpikeGraphic();
 			} else {
 				s = new BlockGraphic();
 			}
