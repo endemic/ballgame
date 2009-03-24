@@ -113,7 +113,7 @@ package {
 				ball.ddx = (ball.ddx >= Block.size) ? Block.size - 2 : ball.ddx;
 				ball.ddy = (ball.ddy >= Block.size) ? Block.size - 2 : ball.ddy;
 				
-				//Game.main.debug.message.text = String('(' + ball.ddx + ',' + ball.ddy + ')');
+				Game.main.debug.message.text = String('(' + this.mouseX + ',' + this.mouseY + ')');
 			} else {
 				ball.ddx = 0;
 				ball.ddy = 0;

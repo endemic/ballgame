@@ -64,7 +64,7 @@ package {
 			corners.upRight = Game.main.map[corners.upY][corners.rightX];
 			corners.downRight = Game.main.map[corners.downY][corners.rightX];
 			
-			Game.main.debug.message.text = String(corners.upLeft + " " + corners.upRight + "\n" + corners.downLeft + " " + corners.downRight);
+			//Game.main.debug.message.text = String(corners.upLeft + " " + corners.upRight + "\n" + corners.downLeft + " " + corners.downRight);
 			
 			return corners;
 		}
