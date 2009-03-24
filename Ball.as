@@ -59,10 +59,10 @@ package {
 			
 			//Game.main.debug.message.text = String("  " + corners.upY + "\n" + corners.leftX + "  " + corners.rightX + "\n  " + corners.downY);
 			
-			corners.upLeft = Game.main.map[corners.upY][corners.leftX];
-			corners.downLeft = Game.main.map[corners.downY][corners.leftX];
-			corners.upRight = Game.main.map[corners.upY][corners.rightX];
-			corners.downRight = Game.main.map[corners.downY][corners.rightX];
+			corners.upLeft = Game.main.mapData[corners.upY][corners.leftX];
+			corners.downLeft = Game.main.mapData[corners.downY][corners.leftX];
+			corners.upRight = Game.main.mapData[corners.upY][corners.rightX];
+			corners.downRight = Game.main.mapData[corners.downY][corners.rightX];
 			
 			//Game.main.debug.message.text = String(corners.upLeft + " " + corners.upRight + "\n" + corners.downLeft + " " + corners.downRight);
 			
@@ -81,7 +81,7 @@ package {
 			if(this.dy < 0) {
 				if(!tmp.upLeft && !tmp.upRight) {	// These should both be zero if no block is there
 					this.y += this.dy;
-					Game.main.spriteContainer.mapLayer.y -= this.dy;
+					Game.main.mapLayer.y -= this.dy;
 				} else {
 					this.y = Math.floor(this.y / Block.size) * Block.size + this.height / 2;
 					this.dy = this.ddy = 0;
@@ -90,7 +90,7 @@ package {
 			} else if(this.dy > 0) {
 				if(!tmp.downLeft && !tmp.downRight) {	// These should both be zero if no block is there
 					this.y += this.dy;
-					Game.main.spriteContainer.mapLayer.y -= this.dy;
+					Game.main.mapLayer.y -= this.dy;
 				} else {
 					this.y = (Math.floor(this.y / Block.size) + 1) * Block.size - this.height / 2;
 					this.dy = this.ddy = 0;
@@ -103,7 +103,7 @@ package {
 			if(this.dx < 0) {
 				if(!tmp.downLeft && !tmp.upLeft) {	// These should both be zero if no block is there
 					this.x += this.dx;
-					Game.main.spriteContainer.mapLayer.x -= this.dx;
+					Game.main.mapLayer.x -= this.dx;
 				} else {
 					this.x = Math.floor(this.x / Block.size) * Block.size + this.width / 2;
 					this.dx = this.ddy = 0;
@@ -112,7 +112,7 @@ package {
 			} else if(this.dx > 0) {
 				if(!tmp.downRight && !tmp.upRight) {	// These should both be zero if no block is there
 					this.x += this.dx;
-					Game.main.spriteContainer.mapLayer.x -= this.dx;
+					Game.main.mapLayer.x -= this.dx;
 				} else {
 					this.x = (Math.floor(this.x / Block.size) + 1) * Block.size - this.width / 2;
 					this.dx = this.ddy = 0;

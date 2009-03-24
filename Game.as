@@ -25,9 +25,10 @@ package {
 			spriteContainer.addChild(ball);
 			spriteContainer.addChild(mapLayer);
 			
-			//spriteContainer.graphics.beginFill(0xFFFFFF);
-			//spriteContainer.graphics.drawRect(0, 0, 640, 480);
-			//spriteContainer.graphics.endFill();
+			spriteContainer.graphics.beginFill(0xFFFFFF);
+			spriteContainer.graphics.drawRect(0, 0, 640, 480);
+			spriteContainer.graphics.endFill();
+			this.addChild(spriteContainer);
 			
 			// 640 x 480 resolution equals 32 x 24 20 pixel blocks
 			mapData = [
@@ -83,7 +84,6 @@ package {
 			// Create debug text
 			debug = new DebugText('DEBUG', 20, 20);
 
-			this.addChild(spriteContainer);
 			this.addEventListener(MouseEvent.MOUSE_DOWN, mouseDown);
 			this.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
 			this.addEventListener(Event.ENTER_FRAME, enterFrame);

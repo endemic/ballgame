@@ -29,7 +29,7 @@ package {
 			this.addChild(spriteContainer);
 			
 			// Add to main display object container
-			Game.main.spriteContainer.mapLayer.addChild(this);
+			Game.main.mapLayer.addChild(this);
 			
 			this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
 		}
@@ -52,8 +52,8 @@ package {
 		
 		public function destroy():void {
 			// Remove this object
-			if(Game.main.spriteContainer.mapLayer.contains(this))
-				Game.main.spriteContainer.mapLayer.removeChild(this);
+			if(Game.main.mapLayer.contains(this))
+				Game.main.mapLayer.removeChild(this);
 			
 			// Also remove event listener!
 			this.removeEventListener(Event.ENTER_FRAME, onEnterFrame);

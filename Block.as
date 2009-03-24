@@ -60,21 +60,22 @@ package {
 			s.height = Block.size;
 			s.cacheAsBitmap = true;
 			
-			spriteContainer = new Sprite();
-			spriteContainer.addChild(s);
-			this.addChild(spriteContainer);
+			//spriteContainer = new Sprite();
+			//spriteContainer.addChild(s);
+			//this.addChild(spriteContainer);
+			this.addChild(s);
 			
 			// Add to list
 			list.push(this);
 			
 			// Add to main display list
-			Game.main.spriteContainer.mapLayer.addChild(this);
+			Game.main.mapLayer.addChild(this);
 		}
 		
 		public function destroy():void {
 			// Remove this object
-			if(Game.main.spriteContainer.mapLayer.contains(this))
-				Game.main.spriteContainer.mapLayer.removeChild(this);
+			if(Game.main.mapLayer.contains(this))
+				Game.main.mapLayer.removeChild(this);
 			
 			// Remove from array as well
 			for(var i:int = 0; i < list.length; i++)
