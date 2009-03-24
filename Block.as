@@ -68,13 +68,13 @@ package {
 			list.push(this);
 			
 			// Add to main display list
-			Game.main.spriteContainer.addChild(this);
+			Game.main.spriteContainer.mapLayer.addChild(this);
 		}
 		
 		public function destroy():void {
 			// Remove this object
-			if(Game.main.spriteContainer.contains(this))
-				Game.main.spriteContainer.removeChild(this);
+			if(Game.main.spriteContainer.mapLayer.contains(this))
+				Game.main.spriteContainer.mapLayer.removeChild(this);
 			
 			// Remove from array as well
 			for(var i:int = 0; i < list.length; i++)

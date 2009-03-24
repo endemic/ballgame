@@ -8,28 +8,29 @@ package {
 	public class Game extends Sprite {
 		
 		static public var main:Object;
-		public var spriteContainer:Sprite;
+		public var spriteContainer:Sprite = new Sprite();
 		public var ball:Ball;
-		public var map:Array;
+		public var mapData:Array;
+		public var mapLayer:Sprite = new Sprite();
 		public var mouseClicked:Boolean = false;
 		public var debug:DebugText;
 		
 		public function Game():void {
 			main = this;
-			spriteContainer = new Sprite;
 			//var mouse:Cursor = new Cursor();
 			
 			// Create ball
 			ball = new Ball();
 			ball.init();
 			spriteContainer.addChild(ball);
+			spriteContainer.addChild(mapLayer);
 			
-			spriteContainer.graphics.beginFill(0xFFFFFF);
-			spriteContainer.graphics.drawRect(0, 0, 640, 480);
-			spriteContainer.graphics.endFill();
+			//spriteContainer.graphics.beginFill(0xFFFFFF);
+			//spriteContainer.graphics.drawRect(0, 0, 640, 480);
+			//spriteContainer.graphics.endFill();
 			
 			// 640 x 480 resolution equals 32 x 24 20 pixel blocks
-			map = [
+			mapData = [
 			[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
 			[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
 			[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -60,22 +61,22 @@ package {
 			var block:Block;
 			var coin:Collectable;
 
-			for(var row:* in map)
-				for(var col:* in map[row])
-					if(map[row][col] != 0) {
+			for(var row:* in mapData)
+				for(var col:* in mapData[row])
+					if(mapData[row][col] != 0) {
 						
 						// Place collectables
-						if(map[row][col] == 2) {
+						if(mapData[row][col] == 2) {
 							coin = new Collectable(col * Block.size, row * Block.size);
-							map[row][col] = 0;
+							mapData[row][col] = 0;
 						// Place player start
-						} else if(map[row][col] == 3) {
+						} else if(mapData[row][col] == 3) {
 							ball.x = col * Block.size;
 							ball.y = row * Block.size;
-							map[row][col] = 0;
+							mapData[row][col] = 0;
 						// Otherwise, place all other blocks
 						} else
-							block = new Block(map[row][col], col * Block.size, row * Block.size);
+							block = new Block(mapData[row][col], col * Block.size, row * Block.size);
 						
 					}
 					

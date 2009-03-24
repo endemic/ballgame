@@ -32,8 +32,8 @@ package {
 			spriteContainer.addChild(s);
 
 			// Center contents
-			spriteContainer.x = -spriteContainer.width/2;
-			spriteContainer.y = -spriteContainer.height/2;
+			spriteContainer.x = -spriteContainer.width/2 - 2;
+			spriteContainer.y = -spriteContainer.height/2 - 2;
 			
 			// Add to display list
 			this.addChild(spriteContainer);
@@ -78,46 +78,44 @@ package {
 			
 			// Move in Y direction
 			var tmp:Object = checkCollision(this.x, this.y + this.dy);
-			if(this.dy < 0) 
-			{
-				if(!tmp.upLeft && !tmp.upRight)	// These should both be zero if no block is there
+			if(this.dy < 0) {
+				if(!tmp.upLeft && !tmp.upRight) {	// These should both be zero if no block is there
 					this.y += this.dy;
-				else 
-				{
+					Game.main.spriteContainer.mapLayer.y -= this.dy;
+				} else {
 					this.y = Math.floor(this.y / Block.size) * Block.size + this.height / 2;
+					this.dy = this.ddy = 0;
 					collisionSound.play();
 				}
-			}
-			else if(this.dy > 0)
-			{
-				if(!tmp.downLeft && !tmp.downRight)	// These should both be zero if no block is there
+			} else if(this.dy > 0) {
+				if(!tmp.downLeft && !tmp.downRight) {	// These should both be zero if no block is there
 					this.y += this.dy;
-				else
-				{
+					Game.main.spriteContainer.mapLayer.y -= this.dy;
+				} else {
 					this.y = (Math.floor(this.y / Block.size) + 1) * Block.size - this.height / 2;
+					this.dy = this.ddy = 0;
 					collisionSound.play();
 				}
 			}
 			
 			// Move in X direction
 			tmp = checkCollision(this.x + this.dx, this.y);
-			if(this.dx < 0)
-			{
-				if(!tmp.downLeft && !tmp.upLeft)	// These should both be zero if no block is there
+			if(this.dx < 0) {
+				if(!tmp.downLeft && !tmp.upLeft) {	// These should both be zero if no block is there
 					this.x += this.dx;
-				else
-				{
+					Game.main.spriteContainer.mapLayer.x -= this.dx;
+				} else {
 					this.x = Math.floor(this.x / Block.size) * Block.size + this.width / 2;
+					this.dx = this.ddy = 0;
 					collisionSound.play();
 				}
-			}
-			else if(this.dx > 0)
-			{
-				if(!tmp.downRight && !tmp.upRight)	// These should both be zero if no block is there
+			} else if(this.dx > 0) {
+				if(!tmp.downRight && !tmp.upRight) {	// These should both be zero if no block is there
 					this.x += this.dx;
-				else
-				{
+					Game.main.spriteContainer.mapLayer.x -= this.dx;
+				} else {
 					this.x = (Math.floor(this.x / Block.size) + 1) * Block.size - this.width / 2;
+					this.dx = this.ddy = 0;
 					collisionSound.play();
 				}
 			}
