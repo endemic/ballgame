@@ -11,8 +11,8 @@ package {
 		public var ddx:Number;
 		public var ddy:Number;
 		
-		public var friction:Number = 0.8;
-		
+		public var friction:Number = 0.95;
+
 		// Private
 		[Embed(source="graphics/ball.svg")]
 		private var BallGraphic:Class;
@@ -49,8 +49,7 @@ package {
 			doMovement();
 		}
 		
-		private function checkCollision(newXPosition:Number, newYPosition:Number):Object
-		{
+		private function checkCollision(newXPosition:Number, newYPosition:Number):Object {
 			var corners:Object = new Object();
 			corners.downY = Math.floor((newYPosition + this.height / 2 - 1) / Block.size);
 			corners.upY = Math.floor((newYPosition - this.height / 2) / Block.size);
@@ -81,7 +80,6 @@ package {
 			if(this.dy < 0) {
 				if(!tmp.upLeft && !tmp.upRight) {	// These should both be zero if no block is there
 					this.y += this.dy;
-					Game.main.mapLayer.y -= this.dy;
 				} else {
 					this.y = Math.floor(this.y / Block.size) * Block.size + this.height / 2;
 					this.dy = this.ddy = 0;
@@ -90,7 +88,6 @@ package {
 			} else if(this.dy > 0) {
 				if(!tmp.downLeft && !tmp.downRight) {	// These should both be zero if no block is there
 					this.y += this.dy;
-					Game.main.mapLayer.y -= this.dy;
 				} else {
 					this.y = (Math.floor(this.y / Block.size) + 1) * Block.size - this.height / 2;
 					this.dy = this.ddy = 0;
@@ -103,7 +100,6 @@ package {
 			if(this.dx < 0) {
 				if(!tmp.downLeft && !tmp.upLeft) {	// These should both be zero if no block is there
 					this.x += this.dx;
-					Game.main.mapLayer.x -= this.dx;
 				} else {
 					this.x = Math.floor(this.x / Block.size) * Block.size + this.width / 2;
 					this.dx = this.ddy = 0;
@@ -112,7 +108,6 @@ package {
 			} else if(this.dx > 0) {
 				if(!tmp.downRight && !tmp.upRight) {	// These should both be zero if no block is there
 					this.x += this.dx;
-					Game.main.mapLayer.x -= this.dx;
 				} else {
 					this.x = (Math.floor(this.x / Block.size) + 1) * Block.size - this.width / 2;
 					this.dx = this.ddy = 0;
@@ -123,7 +118,6 @@ package {
 			// Determine how friction affects speed
 			this.dx = (this.dx <= 0.05 && this.dx >= -0.05) ? 0 : this.dx * friction;
 			this.dy = (this.dy <= 0.05 && this.dy >= -0.05) ? 0 : this.dy * friction;
-			
 		}
 		
 		
