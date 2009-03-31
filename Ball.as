@@ -58,10 +58,10 @@ package {
 			
 			//Game.main.debug.message.text = String("  " + corners.upY + "\n" + corners.leftX + "  " + corners.rightX + "\n  " + corners.downY);
 			
-			corners.upLeft = Game.main.mapData[corners.upY][corners.leftX];
-			corners.downLeft = Game.main.mapData[corners.downY][corners.leftX];
-			corners.upRight = Game.main.mapData[corners.upY][corners.rightX];
-			corners.downRight = Game.main.mapData[corners.downY][corners.rightX];
+			corners.upLeft = Game.main.mapData[Game.main.currentLevel][corners.upY][corners.leftX];
+			corners.downLeft = Game.main.mapData[Game.main.currentLevel][corners.downY][corners.leftX];
+			corners.upRight = Game.main.mapData[Game.main.currentLevel][corners.upY][corners.rightX];
+			corners.downRight = Game.main.mapData[Game.main.currentLevel][corners.downY][corners.rightX];
 			
 			//Game.main.debug.message.text = String(corners.upLeft + " " + corners.upRight + "\n" + corners.downLeft + " " + corners.downRight);
 			
