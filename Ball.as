@@ -82,7 +82,8 @@ package {
 					this.y += this.dy;
 				} else {
 					this.y = Math.floor(this.y / Block.size) * Block.size + this.height / 2;
-					this.dy = this.ddy = 0;
+					this.dy = -this.dy / 2;
+					this.ddy = 0;
 					collisionSound.play();
 				}
 			} else if(this.dy > 0) {
@@ -90,7 +91,8 @@ package {
 					this.y += this.dy;
 				} else {
 					this.y = (Math.floor(this.y / Block.size) + 1) * Block.size - this.height / 2;
-					this.dy = this.ddy = 0;
+					this.dy = -this.dy / 2;
+					this.ddy = 0;
 					collisionSound.play();
 				}
 			}
@@ -102,7 +104,8 @@ package {
 					this.x += this.dx;
 				} else {
 					this.x = Math.floor(this.x / Block.size) * Block.size + this.width / 2;
-					this.dx = this.ddy = 0;
+					this.dx = -this.dx / 2;
+					this.ddx = 0;
 					collisionSound.play();
 				}
 			} else if(this.dx > 0) {
@@ -110,14 +113,15 @@ package {
 					this.x += this.dx;
 				} else {
 					this.x = (Math.floor(this.x / Block.size) + 1) * Block.size - this.width / 2;
-					this.dx = this.ddy = 0;
+					this.dx = -this.dx / 2;
+					this.ddx = 0;
 					collisionSound.play();
 				}
 			}
 			
 			// Determine how friction affects speed
-			this.dx = (this.dx <= 0.05 && this.dx >= -0.05) ? 0 : this.dx * friction;
-			this.dy = (this.dy <= 0.05 && this.dy >= -0.05) ? 0 : this.dy * friction;
+			this.dx = (this.dx <= 0.05 && this.dx >= -0.05) ? 0 : this.dx * this.friction;
+			this.dy = (this.dy <= 0.05 && this.dy >= -0.05) ? 0 : this.dy * this.friction;
 		}
 		
 		

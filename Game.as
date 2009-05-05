@@ -14,7 +14,7 @@ package {
 		public var mapLayer:Sprite = new Sprite();
 		public var mouseClicked:Boolean = false;
 		public var debug:DebugText;
-		public var currentLevel:int = 1;
+		public var currentLevel:int = 0;
 		
 		public function Game():void {
 			main = this;
