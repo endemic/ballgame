@@ -6,17 +6,13 @@ package {
 	public class Ball extends Sprite {
 		
 		// Public
-		public var dx:Number;
-		public var dy:Number;
-		public var ddx:Number;
-		public var ddy:Number;
+		public var dx:Number = 0, dy:Number = 0, ddx:Number = 0, ddy:Number = 0;
 		
 		public var friction:Number = 0.95;
-
-		// Private
-		[Embed(source="graphics/ball.svg")]
+		
+		[Embed(source="graphics/ballv2.svg")]
 		private var BallGraphic:Class;
-		private var spriteContainer:Sprite;
+		public var spriteContainer:Sprite;
 		
 		[Embed(source="sounds/collision.mp3")]
 		private var CollisionSoundEffect:Class;
@@ -51,37 +47,38 @@ package {
 		
 		private function checkCollision(newXPosition:Number, newYPosition:Number):Object {
 			var corners:Object = new Object();
+			
 			corners.downY = Math.floor((newYPosition + this.height / 2 - 1) / Block.size);
 			corners.upY = Math.floor((newYPosition - this.height / 2) / Block.size);
 			corners.leftX = Math.floor((newXPosition - this.width / 2) / Block.size);
 			corners.rightX = Math.floor((newXPosition + this.width / 2 - 1) / Block.size);
-			
-			//Game.main.debug.message.text = String("  " + corners.upY + "\n" + corners.leftX + "  " + corners.rightX + "\n  " + corners.downY);
-			
+
 			corners.upLeft = Game.main.mapData[Game.main.currentLevel][corners.upY][corners.leftX];
 			corners.downLeft = Game.main.mapData[Game.main.currentLevel][corners.downY][corners.leftX];
 			corners.upRight = Game.main.mapData[Game.main.currentLevel][corners.upY][corners.rightX];
 			corners.downRight = Game.main.mapData[Game.main.currentLevel][corners.downY][corners.rightX];
-			
-			//Game.main.debug.message.text = String(corners.upLeft + " " + corners.upRight + "\n" + corners.downLeft + " " + corners.downRight);
-			
+
 			return corners;
 		}
 		
 		// Apply movement
 		private function doMovement():void {
-
+			var difference:Number;
+			
 			// Add acceleration to current speed
 			this.dx += this.ddx;
 			this.dy += this.ddy;
 			
 			// Move in Y direction
-			var tmp:Object = checkCollision(this.x, this.y + this.dy);
+			var tmp:Object = checkCollision(this.x/* - Game.main.mapLayer.x*/, this.y + this.dy/* - Game.main.mapLayer.y*/);
 			if(this.dy < 0) {
 				if(!tmp.upLeft && !tmp.upRight) {	// These should both be zero if no block is there
 					this.y += this.dy;
+					//Game.main.mapLayer.y -= this.dy;	// Move map in opposite direction
 				} else {
-					this.y = Math.floor(this.y / Block.size) * Block.size + this.height / 2;
+					difference = this.y - (Math.floor(this.y / Block.size) * Block.size + this.height / 2);
+					this.y -= difference;
+					//Game.main.mapLayer.y -= difference;
 					this.dy = -this.dy / 2;
 					this.ddy = 0;
 					collisionSound.play();
@@ -89,8 +86,11 @@ package {
 			} else if(this.dy > 0) {
 				if(!tmp.downLeft && !tmp.downRight) {	// These should both be zero if no block is there
 					this.y += this.dy;
+					//Game.main.mapLayer.y -= this.dy;	// Move map in opposite direction
 				} else {
-					this.y = (Math.floor(this.y / Block.size) + 1) * Block.size - this.height / 2;
+					difference = this.y - (Math.floor(this.y / Block.size) * Block.size + this.height / 2);
+					this.y -= difference;
+					//Game.main.mapLayer.y += difference;
 					this.dy = -this.dy / 2;
 					this.ddy = 0;
 					collisionSound.play();
@@ -98,12 +98,15 @@ package {
 			}
 			
 			// Move in X direction
-			tmp = checkCollision(this.x + this.dx, this.y);
+			tmp = checkCollision(this.x + this.dx/* - Game.main.mapLayer.x*/, this.y/* - Game.main.mapLayer.y*/);
 			if(this.dx < 0) {
 				if(!tmp.downLeft && !tmp.upLeft) {	// These should both be zero if no block is there
 					this.x += this.dx;
+					//Game.main.mapLayer.x -= this.dx;	// Move map in opposite direction
 				} else {
-					this.x = Math.floor(this.x / Block.size) * Block.size + this.width / 2;
+					difference = this.x - (Math.floor(this.x / Block.size) * Block.size + this.width / 2);
+					this.x -= difference;
+					//Game.main.mapLayer.x += difference;
 					this.dx = -this.dx / 2;
 					this.ddx = 0;
 					collisionSound.play();
@@ -111,8 +114,11 @@ package {
 			} else if(this.dx > 0) {
 				if(!tmp.downRight && !tmp.upRight) {	// These should both be zero if no block is there
 					this.x += this.dx;
+					//Game.main.mapLayer.x -= this.dx;	// Move map in opposite direction
 				} else {
-					this.x = (Math.floor(this.x / Block.size) + 1) * Block.size - this.width / 2;
+					difference = this.x - (Math.floor(this.x / Block.size) * Block.size + this.width / 2);
+					this.x -= difference;
+					//Game.main.mapLayer.x += difference;
 					this.dx = -this.dx / 2;
 					this.ddx = 0;
 					collisionSound.play();
